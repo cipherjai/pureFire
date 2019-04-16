@@ -1,0 +1,64 @@
+<aura:component controller="Lightning_ImgViewCtrl" implements="flexipage:availableForRecordHome,force:lightningQuickActionWithoutHeader,force:hasRecordId" access="global">
+    <aura:attribute name="recordId" type="String" description="Record Id of Case" />
+    <aura:attribute name="photoDetails" type="object" description="use to show the details of photo" />
+    <aura:attribute name="Message" type="boolean" default="false" description="use for display no photos/pdf associated with case" />
+    <aura:attribute name="photoLoadError" type="String" default="" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <div class="flexipageComponent slds-scrollable_x" style="height: 320px;">
+        <ul class="slds-grid slds-grid_frame" style="">
+            <aura:iteration items="{!v.photoDetails}" var="photo" indexVar="i">
+                <li class="slds-p-horizontal_xx-small ">
+                    <div style="width: 20rem;">
+                        <div class="slds-file slds-file_card slds-has-title">
+                            <figure>
+                                <a href="{!'/lightning/r/ContentDocument/' + photo.documentId +'/view'}" target="_blank" class="slds-file__crop slds-file__crop_4-by-3">
+                                    <img src="{!photo.ImageUrl}" alt="Description of the image" />
+                                </a>
+                                <figcaption class="slds-file__title slds-file__title_card slds-file-has-actions">
+                                    <div class="slds-media slds-media_small slds-media_center">
+                                        <div class="slds-media__figure slds-line-height_reset">
+                                            <!--<apex:variable var="icon" value="{!p.IconName}"/>-->
+                                            <span class="slds-icon_container" title="{!photo.IconName}">
+                                                <lightning:icon iconName="{!'doctype:' +photo.IconName}" size="x-small"/>
+                                                <span class="slds-assistive-text">pdf</span>
+                                            </span>
+                                        </div>
+                                        <div class="slds-media__body">
+                                            <span class="slds-file__text slds-truncate" title="{!photo.title}">{!photo.title}</span>
+                                        </div>
+                                    </div>
+                                </figcaption>
+                            </figure>
+                            <div class="slds-file__actions-menu">
+                                <div class="slds-button-group" role="group">
+                                    <a href="{!'/sfc/servlet.shepherd/version/download/' + photo.pid}">
+                                        <lightning:icon iconName="utility:download" size="xx-small" />
+                                        <span class="slds-assistive-text">Download</span>
+                                    </a>
+                                    <div class="slds-dropdown-trigger ">
+                                        <div class="slds-button-group">
+                                            <button class="slds-button slds-button_icon slds-button_icon slds-button_icon-x-small" aria-haspopup="true" title="More Actions">
+                                                <lightning:icon iconName="utility:down" size="xx-small"/>
+                                                <span class="slds-assistive-text">More Actions</span>
+                                            </button>
+                                            <div class="slds-dropdown slds-dropdown--left slds-text-heading--label slds-dropdown--menu">
+                                                <ul class="slds-dropdown__list" role="menu">
+                                                    <li href="#" class="slds-dropdown__item"><a href="{!'/lightning/r/ContentDocument/' + photo.documentId +'/view'}" class="slds-truncate" target="_blank" role="menuitem">Go To File</a></li>
+                                                    <!--<li href="#" class="slds-dropdown__item"><a href="{!'/'+photo.pid}" class="slds-truncate" target="_blank" role="menuitem">Go To File</a></li>-->
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </aura:iteration>
+        </ul>
+    </div>
+    <div>
+    </div>
+    <!--<c:LightningSVGIcon svgPath="/resource/slds214/assets/icons/standard-sprite/svg/symbols.svg#user" category="standard" size="large" name="user" />-->
+</aura:component>
